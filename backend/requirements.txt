@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+pydantic-settings
+python-dotenv
+snowflake-connector-python
+google-genai
+sentence-transformers
+sqlglot
+httpx
+pytest
