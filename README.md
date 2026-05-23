@@ -1,78 +1,14 @@
-# Census Chat
+# Systems thinking
 
-An interactive chat agent that answers natural language questions about the US population, grounded in US Census data from Snowflake.
+1) When the user types in a string, what holds the string? (EX: How has solar energy capacity in India grown from 2015 to 2024?)
 
-## Architecture
+We need to have a request object that has the query as a string in its body.
 
-```
-Streamlit (frontend) → FastAPI (backend) → Gemini LLM + Snowflake + Local Embeddings
-```
+2) In the planner, we demistify NL and understand
+    a. What is the data that needs to be fetched? (data, time period)
+    b. How does the data need to be analysed? (why change, predictive)
 
-## Quick Start
+3) For what data needs to be fetched, we will need to
+    a. Identify time periods
+    b. String value with data value we need
 
-### Prerequisites
-- Docker and Docker Compose
-- Snowflake trial account with US Census Marketplace dataset
-- Google Gemini API key (free tier)
-
-### 1. Configure environment
-
-```bash
-cp .env.example .env
-# Edit .env with your Snowflake and Gemini credentials
-```
-
-### 2. Run with Docker Compose
-
-```bash
-docker-compose up --build
-```
-
-- **Frontend**: http://localhost:8501
-- **Backend API**: http://localhost:8000
-- **Health check**: http://localhost:8000/health
-
-### 3. Run locally (development)
-
-Backend:
-```bash
-cd backend
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env  # Edit with your credentials
-uvicorn app.main:app --reload --port 8000
-```
-
-Frontend:
-```bash
-cd frontend
-pip install -r requirements.txt
-BACKEND_URL=http://localhost:8000 streamlit run app.py
-```
-
-### 4. Run tests
-
-```bash
-cd backend
-pytest tests/ -v
-```
-
-## Project Structure
-
-```
-├── backend/
-│   ├── app/
-│   │   ├── main.py            # FastAPI routes
-│   │   ├── config.py          # Environment settings
-│   │   ├── services/          # Snowflake, LLM, Embeddings
-│   │   └── pipeline/          # Agentic text-to-SQL pipeline
-│   ├── tests/
-│   ├── requirements.txt
-│   └── Dockerfile
-├── frontend/
-│   ├── app.py                 # Streamlit chat UI
-│   ├── requirements.txt
-│   └── Dockerfile
-├── docker-compose.yml
-└── .env.example
-```
